@@ -118,7 +118,7 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>&amp;File</string>
     </property>
     <addaction name="actionRun"/>
     <addaction name="actionCancel"/>
@@ -127,7 +127,7 @@
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>&amp;Help</string>
     </property>
     <addaction name="actionAbout"/>
    </widget>
@@ -146,13 +146,16 @@
    </property>
   </action>
   <action name="actionCancel">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Cancel</string>
    </property>
   </action>
   <action name="actionClose">
    <property name="text">
-    <string>Close</string>
+    <string>Exit</string>
    </property>
   </action>
  </widget>

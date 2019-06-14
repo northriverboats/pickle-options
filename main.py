@@ -7,6 +7,15 @@ import os
 import re
 import MainWindow  # This file holds our MainWindow and all design related things
 
+"""
+Notes:
+Lib\site-packages\PyQt4\pyuic4 MainWindow.ui  -o MainWindow.py
+Scripts\pyinstaller.exe --onefile --windowed --icon options.ico  --name "Options Fodler Pickler" "Options Fodler Pickler FWW.spec" main.py
+
+ToDo's
+"""
+
+
 class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
 
     def __init__(self):
