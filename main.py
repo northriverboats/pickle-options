@@ -56,6 +56,7 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         # set ui state
         self.actionCancel.setEnabled(False)
         self.btnCancel.hide()
+        self.lePath.setText(self.dir)
 
         # set slots and signals
         self.actionExit.triggered.connect(self.closeEvent)
