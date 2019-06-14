@@ -28,6 +28,17 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         super(self.__class__, self).__init__()
         self.setupUi(self)
 
+        # set python environment
+        if getattr(sys, 'frozen', False):
+            bundle_dir = sys._MEIPASS
+        else:
+            # we are running in a normal Python environment
+            bundle_dir = os.path.dirname(os.path.abspath(__file__))
+
+        # set program icon
+        self.setWindowIcon(QtGui.QIcon(os.path.join(bundle_dir, "pickle.ico")))
+
+
         # set variables
         self.exit_flag = False
 
