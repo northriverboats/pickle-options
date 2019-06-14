@@ -2,6 +2,10 @@
 
 from PyQt4 import QtGui # Import the PyQt4 module we'll need
 from PyQt4 import QtCore
+from PyQt4.QtCore import QSettings, QSize, QPoint
+from PyQt4.QtCore import QThread, SIGNAL
+from pathlib import Path
+
 import sys # We need sys so that we can pass argv to QApplication
 import os
 import re
@@ -23,9 +27,31 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     def __init__(self):
         super(self.__class__, self).__init__()
         self.setupUi(self)
-        
+
+        # set variables
+        self.exit_flag = False
+
+        # set ui state
         self.actionCancel.setEnabled(False)
         self.btnCancel.hide()
+
+        # set slots and signals
+        self.actionExit.triggered.connect(self.closeEvent)
+        self.actionAbout.triggered.connect(self.doAbout)
+
+    def doAbout(self, event):
+        about_msg = "NRB Options Folder Pickler\n©2019 North River Boats\nBy Fred Warren"
+        reply = QtGui.QMessageBox.information(self, 'About',
+                         about_msg, QtGui.QMessageBox.Ok)
+
+    def closeEvent(self, e):
+        self._closeEvent(0)
+
+    def _closeEvent(self, e):
+        self.exit_flag = True
+        sys.exit(0)
+
+
 
 def main():
     app = QtGui.QApplication(sys.argv)  # A new instance of QApplication
