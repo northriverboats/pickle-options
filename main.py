@@ -10,7 +10,7 @@ import MainWindow  # This file holds our MainWindow and all design related thing
 """
 Notes:
 Lib\site-packages\PyQt4\pyuic4 MainWindow.ui  -o MainWindow.py
-Scripts\pyinstaller.exe --onefile --windowed --icon options.ico  --name "Options Fodler Pickler" "Options Fodler Pickler FWW.spec" main.py
+Scripts\pyinstaller.exe --onefile --windowed --icon options.ico  --name "Options Fodler Pickler" "NRB Pickle Options FWW.spec" main.py
 
 ToDo's
 """
