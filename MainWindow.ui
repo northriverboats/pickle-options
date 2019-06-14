@@ -123,7 +123,7 @@
     <addaction name="actionRun"/>
     <addaction name="actionCancel"/>
     <addaction name="separator"/>
-    <addaction name="actionClose"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -153,7 +153,7 @@
     <string>Cancel</string>
    </property>
   </action>
-  <action name="actionClose">
+  <action name="actionExit">
    <property name="text">
     <string>Exit</string>
    </property>
