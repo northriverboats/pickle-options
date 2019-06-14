@@ -9,6 +9,8 @@ import MainWindow  # This file holds our MainWindow and all design related thing
 
 """
 Notes:
+patch of the PyInstaller/depend/bindepend.py https://github.com/Loran425/pyinstaller/commit/14b6e65642e4b07a4358bab278019a48dedf7460
+
 Lib\site-packages\PyQt4\pyuic4 MainWindow.ui  -o MainWindow.py
 Scripts\pyinstaller.exe --onefile --windowed --icon options.ico  --name "Options Fodler Pickler" "NRB Pickle Options FWW.spec" main.py
 
@@ -21,6 +23,9 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
     def __init__(self):
         super(self.__class__, self).__init__()
         self.setupUi(self)
+        
+        self.actionCancel.setEnabled(False)
+        self.btnCancel.hide()
 
 def main():
     app = QtGui.QApplication(sys.argv)  # A new instance of QApplication

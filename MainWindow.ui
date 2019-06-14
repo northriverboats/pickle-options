@@ -42,14 +42,14 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="btnCancel">
         <property name="text">
          <string>&amp;Cancel</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="btnRun">
         <property name="text">
          <string>&amp;Run</string>
         </property>
@@ -137,12 +137,12 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAbout">
    <property name="text">
-    <string>About</string>
+    <string>&amp;About</string>
    </property>
   </action>
   <action name="actionRun">
    <property name="text">
-    <string>Run</string>
+    <string>&amp;Run</string>
    </property>
   </action>
   <action name="actionCancel">
@@ -150,12 +150,12 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Cancel</string>
+    <string>&amp;Cancel</string>
    </property>
   </action>
   <action name="actionExit">
    <property name="text">
-    <string>Exit</string>
+    <string>E&amp;xit</string>
    </property>
   </action>
  </widget>
