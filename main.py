@@ -5,7 +5,7 @@ from PyQt4 import QtCore
 from PyQt4.QtCore import QSettings, QSize, QPoint
 from PyQt4.QtCore import QThread, SIGNAL
 from pathlib import Path
-
+from dotenv import load_dotenv
 import sys # We need sys so that we can pass argv to QApplication
 import os
 import re
@@ -35,12 +35,23 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
             # we are running in a normal Python environment
             bundle_dir = os.path.dirname(os.path.abspath(__file__))
 
+        # load environmental variables
+        load_dotenv(dotenv_path = Path(bundle_dir) / ".env")
+
         # set program icon
         self.setWindowIcon(QtGui.QIcon(os.path.join(bundle_dir, "pickle.ico")))
 
+        # work in INI File Stuff here
+        QtCore.QCoreApplication.setOrganizationName("NRB")
+        QtCore.QCoreApplication.setOrganizationDomain("northriverboats.com")
+        QtCore.QCoreApplication.setApplicationName("Options Fodler Pickler")
+        self.settings = QSettings()
+        
 
         # set variables
         self.exit_flag = False
+        self.dir = self.settings.value("dir_", os.getenv("DIR"))
+        self.pickle_name = os.getenv("PICKLE")
 
         # set ui state
         self.actionCancel.setEnabled(False)
