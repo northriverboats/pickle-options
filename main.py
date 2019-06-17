@@ -5,9 +5,10 @@ from PyQt4 import QtCore
 from PyQt4.QtCore import QSettings, QSize, QPoint
 from PyQt4.QtCore import QThread, SIGNAL
 from pathlib import Path
+from dotenv import load_dotenv
+from fields import topSection, cadSection, partSection
 import openpyxl
 import pickle
-from dotenv import load_dotenv
 import sys # We need sys so that we can pass argv to QApplication
 import os
 import re
@@ -160,13 +161,16 @@ class background_thread(QThread):
         return files
 
     def process_sheet(self, file):
-        wb = openpyxl.load_workbook(file)
+        wb = openpyxl.load_workbook(file, data_only = True)
         ws = wb.active
-        # option = file.name[:-5]
-        option = ws['A2'].value
-        print(ws.cell(row=1, column=2).value)
+        option = file.name[:-5]
+        # option = ws['A2'].value
         data = {}
-        return [option, data]
+
+        for ref in topSection:
+            data[ref[0]] = ws.cell(column = ref[1], row = ref[2]).value
+        print([data["OPTION NUMBER"], data])
+        return [data["OPTION NUMBER"], data]
         
     def run(self):
         self.running = True
