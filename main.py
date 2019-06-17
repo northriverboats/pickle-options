@@ -176,6 +176,9 @@ class background_thread(QThread):
         for file in files:
             if not self.running:
                 break
+            book = openpyxl.load_workbook(file)
+            sheet = book.active
+            
             current_count += 1
             self.emit(SIGNAL('update_progressbar(int)'), int(float(current_count) / total_files * 100))
             self.emit(SIGNAL('update_label(QString)'), str(file))
