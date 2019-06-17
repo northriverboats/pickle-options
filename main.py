@@ -61,6 +61,7 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         # set slots and signals
         self.actionExit.triggered.connect(self.closeEvent)
         self.actionAbout.triggered.connect(self.doAbout)
+        self.btnBrowse.clicked.connect(self.browseEvent)
 
     def doAbout(self, event):
         about_msg = "NRB Options Folder Pickler\n©2019 North River Boats\nBy Fred Warren"
@@ -74,6 +75,12 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         self.exit_flag = True
         sys.exit(0)
 
+    def browseEvent(self):
+        default_dir = self.dir
+        my_dir = QtGui.QFileDialog.getExistingDirectory(self, "Open a folder", default_dir, QtGui.QFileDialog.ShowDirsOnly)
+        if my_dir != "":
+            self.dir = my_dir
+        self.lePath.setText(self.dir)
 
 
 def main():
