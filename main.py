@@ -160,9 +160,11 @@ class background_thread(QThread):
         return files
 
     def process_sheet(self, file):
-        book = openpyxl.load_workbook(file)
-        sheet = book.active
-        option = file.name[:-5]
+        wb = openpyxl.load_workbook(file)
+        ws = wb.active
+        # option = file.name[:-5]
+        option = ws['A2'].value
+        print(ws.cell(row=1, column=2).value)
         data = {}
         return [option, data]
         
