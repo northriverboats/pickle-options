@@ -50,7 +50,7 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
 
         # set variables
         self.exit_flag = False
-        self.dir = self.settings.value("dir_", os.getenv("DIR"))
+        self.dir = self.settings.value("dir", os.getenv("DIR"))
         self.pickle_name = os.getenv("PICKLE")
 
         # set ui state
@@ -73,6 +73,7 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
 
     def _closeEvent(self, e):
         self.exit_flag = True
+        self.settings.setValue("dir", self.dir)
         sys.exit(0)
 
     def browseEvent(self):
