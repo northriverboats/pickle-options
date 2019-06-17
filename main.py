@@ -5,11 +5,14 @@ from PyQt4 import QtCore
 from PyQt4.QtCore import QSettings, QSize, QPoint
 from PyQt4.QtCore import QThread, SIGNAL
 from pathlib import Path
+import openpyxl
+import pickle
 from dotenv import load_dotenv
 import sys # We need sys so that we can pass argv to QApplication
 import os
 import re
 import MainWindow  # This file holds our MainWindow and all design related things
+import time
 
 """
 Notes:
@@ -17,6 +20,8 @@ patch of the PyInstaller/depend/bindepend.py https://github.com/Loran425/pyinsta
 
 Lib\site-packages\PyQt4\pyuic4 MainWindow.ui  -o MainWindow.py
 Scripts\pyinstaller.exe --onefile --windowed --icon options.ico  --name "Options Fodler Pickler" "NRB Pickle Options FWW.spec" main.py
+
+lblFile bntCancel btnRun progressBar
 
 ToDo's
 """
@@ -49,6 +54,7 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         
 
         # set variables
+        self.background_thread = None
         self.exit_flag = False
         self.dir = self.settings.value("dir", os.getenv("DIR"))
         self.pickle_name = os.getenv("PICKLE")
@@ -62,6 +68,7 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         self.actionExit.triggered.connect(self.closeEvent)
         self.actionAbout.triggered.connect(self.doAbout)
         self.btnBrowse.clicked.connect(self.browseEvent)
+        self.btnRun.clicked.connect(self.startBackgroundTask)
 
     def doAbout(self, event):
         about_msg = "NRB Options Folder Pickler\n©2019 North River Boats\nBy Fred Warren"
@@ -84,9 +91,102 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         self.lePath.setText(self.dir)
 
 
+
+    def startBackgroundTask(self):
+        # hide / disable buttons and menu items as well as saving state
+        self.block_actions()
+        self.background_thread = background_thread(self.dir)
+
+        self.connect(self.background_thread, SIGNAL('endBackgroundTask()'), self.endBackgroundTask)
+        self.connect(self.background_thread, SIGNAL('update_statusbar(QString)'), self.update_statusbar)
+        self.connect(self.background_thread, SIGNAL('update_label(QString)'), self.update_label)
+        self.connect(self.background_thread, SIGNAL('update_progressbar(int)'), self.update_progressbar)
+        self.btnCancel.clicked.connect(self.doAbort)    
+        # Thread will self-terminate or be stopped via update_abort
+        self.background_thread.start()
+
+    def endBackgroundTask(self):
+        self.unblock_actions()
+        self.statusbar.showMessage("")
+
+    def doAbort(self):
+        self.background_thread.running = False
+        self.unblock_actions
+
+    def block_actions(self):        
+        self.btnRun.setEnabled(False)
+        self.btnCancel.setEnabled(True)
+        self.btnRun.hide()
+        self.btnCancel.show()
+        self.actionRun.setEnabled(False)
+        self.actionCancel.setEnabled(True)
+        self.lePath.setReadOnly(True)
+    
+    def unblock_actions(self):
+        self.btnRun.setEnabled(True)
+        self.btnCancel.setEnabled(False)
+        self.btnRun.show()
+        self.btnCancel.hide()
+        self.actionRun.setEnabled(True)
+        self.actionCancel.setEnabled(False)
+        self.lePath.setReadOnly(False)
+        self.lblFile.setText("")
+
+    def update_statusbar(self, message):
+        self.statusbar.showMessage(message)
+
+    def update_progressbar(self, num):
+        self.progressBar.setValue(num)
+        
+    def update_label(self, label):
+        self.lblFile.setText(label)
+
+
+        
+class background_thread(QThread):
+    def __init__(self, dir):
+        QThread.__init__(self)
+        self.dir = dir
+
+    def __del__(self):
+        self.wait()
+
+    def build_files_list(self, dir):
+        self.emit(SIGNAL('update_statusbar(qString)'), "Finding files...")
+        files = []
+        for path in Path(dir).glob("[!~$]*.xlsx"):
+            if not self.running:
+                break
+            files.append(path)
+        self.emit(SIGNAL('update_statusbar(qString)'), "Found {} files to process".format(len(files)))
+        return files
+   
+        
+    def run(self):
+        self.running = True
+        self.emit(SIGNAL('update_progressbar(int)'), 0)
+        files = self.build_files_list(self.dir)
+        total_files = len(files)
+        current_count = 0
+
+        if not self.running:
+            self.emit(SIGNAL('endBackgroundTask()'))
+            return
+
+        for file in files:
+            if not self.running:
+                break
+            current_count += 1
+            self.emit(SIGNAL('update_progressbar(int)'), int(float(current_count) / total_files * 100))
+            self.emit(SIGNAL('update_label(QString)'), str(file))
+            self.emit(SIGNAL('update_statusbar(QString)'), 'Pickeling %d of %d' % (current_count, total_files))
+
+        self.emit(SIGNAL('endBackgroundTask()'))
+
+
 def main():
     app = QtGui.QApplication(sys.argv)  # A new instance of QApplication
-    form = MainAppWindow()                 # We set the form to be our Main App Wehdiw (design)
+    form = MainAppWindow()              # We set the form to be our Main App Wehdiw (design)
     form.show()                         # Show the form
     app.exec_()                         # and execute the app
 
