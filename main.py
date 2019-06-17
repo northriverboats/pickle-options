@@ -158,12 +158,19 @@ class background_thread(QThread):
             files.append(path)
         self.emit(SIGNAL('update_statusbar(qString)'), "Found {} files to process".format(len(files)))
         return files
-   
+
+    def process_sheet(self, file):
+        book = openpyxl.load_workbook(file)
+        sheet = book.active
+        option = file.name[:-5]
+        data = {}
+        return [option, data]
         
     def run(self):
         self.running = True
         self.emit(SIGNAL('update_progressbar(int)'), 0)
         files = self.build_files_list(self.dir)
+        options = {}
         total_files = len(files)
         current_count = 0
 
@@ -174,14 +181,16 @@ class background_thread(QThread):
         for file in files:
             if not self.running:
                 break
-            book = openpyxl.load_workbook(file)
-            sheet = book.active
-            
+
+            option, data = self.process_sheet(file)
+            options[option] = data
+
             current_count += 1
             self.emit(SIGNAL('update_progressbar(int)'), int(float(current_count) / total_files * 100))
             self.emit(SIGNAL('update_label(QString)'), str(file))
             self.emit(SIGNAL('update_statusbar(QString)'), 'Pickeling %d of %d' % (current_count, total_files))
 
+        # if we get to this point, pickle the results....
         self.emit(SIGNAL('endBackgroundTask()'))
 
 
