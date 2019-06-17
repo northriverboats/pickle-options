@@ -12,7 +12,7 @@ import sys # We need sys so that we can pass argv to QApplication
 import os
 import re
 import MainWindow  # This file holds our MainWindow and all design related things
-import time
+
 
 """
 Notes:
@@ -20,8 +20,6 @@ patch of the PyInstaller/depend/bindepend.py https://github.com/Loran425/pyinsta
 
 Lib\site-packages\PyQt4\pyuic4 MainWindow.ui  -o MainWindow.py
 Scripts\pyinstaller.exe --onefile --windowed --icon options.ico  --name "Options Fodler Pickler" "NRB Pickle Options FWW.spec" main.py
-
-lblFile bntCancel btnRun progressBar
 
 ToDo's
 """
