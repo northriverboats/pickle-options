@@ -9,6 +9,7 @@ topSection = [
     ["CALCULATED RETAIL", 2, 10],
     ["ADVERTISED RETAIL", 2, 11],
     ["CONTRIBUTION MARGIN", 2, 12],
+    ["DESIGN LABOR RATE", 2, 15],
     
     ["18 LABOR TOTAL", 13, 2],
     ["18 MATERIAL TOTAL", 13, 3],
@@ -108,7 +109,29 @@ topSection = [
     ["37 LABOR TOTAL", 89, 2],
     ["37 MATERIAL TOTAL", 89, 3],
     ["37 OVERHEAD CALCULATION", 89, 4],
-    ["37 TOTAL COST", 89, 5]
+    ["37 TOTAL COST", 89, 5],
+    
+    ["18 DESIGN HOURS", 13, 15],
+    ["19 DESIGN HOURS", 17, 15],
+    ["20 DESIGN HOURS", 21, 15],
+    ["21 DESIGN HOURS", 25, 15],
+    ["22 DESIGN HOURS", 29, 15],
+    ["23 DESIGN HOURS", 33, 15],
+    ["24 DESIGN HOURS", 37, 15],
+    ["25 DESIGN HOURS", 41, 15],
+    ["26 DESIGN HOURS", 45, 15],
+    ["27 DESIGN HOURS", 49, 15],
+    ["28 DESIGN HOURS", 53, 15],
+    ["29 DESIGN HOURS", 57, 15],
+    ["30 DESIGN HOURS", 61, 15],
+    ["31 DESIGN HOURS", 65, 15],
+    ["32 DESIGN HOURS", 69, 15],
+    ["33 DESIGN HOURS", 73, 15],
+    ["34 DESIGN HOURS", 77, 15],
+    ["35 DESIGN HOURS", 81, 15],
+    ["36 DESIGN HOURS", 85, 15],
+    ["37 DESIGN HOURS", 89, 15],
+    
 ]
 
 cadSection = [
