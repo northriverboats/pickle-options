@@ -6,7 +6,7 @@ from PyQt4.QtCore import QSettings, QSize, QPoint
 from PyQt4.QtCore import QThread, SIGNAL
 from pathlib import Path
 from dotenv import load_dotenv
-from fields import topSection, cadSection, partSection
+from fields import topSection, partSection,  bottomSection
 import openpyxl
 import pickle
 import sys # We need sys so that we can pass argv to QApplication
@@ -170,7 +170,7 @@ class background_thread(QThread):
         for ref in topSection:
             data[ref[0]] = ws.cell(column = ref[1], row = ref[2]).value
         print([data["OPTION NUMBER"], data])
-        return [data["OPTION NUMBER"], data]
+        return [str(data["OPTION NUMBER"]), data]
         
     def run(self):
         self.running = True
@@ -197,6 +197,8 @@ class background_thread(QThread):
             self.emit(SIGNAL('update_statusbar(QString)'), 'Pickeling %d of %d' % (current_count, total_files))
 
         # if we get to this point, pickle the results....
+        file_name = os.path.join(self.dir, "options.pickle")
+        pickle.dump(options, open(file_name, 'wb'))
         self.emit(SIGNAL('endBackgroundTask()'))
 
 

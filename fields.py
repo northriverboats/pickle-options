@@ -134,11 +134,54 @@ topSection = [
     
 ]
 
-cadSection = [
-]
-
 partSection = [
 ]
 
 bottomSection = [
+  ["EOS QUANTITY", 1, 1],
+  ["EOS LOCATION SELECTION", 1, 2],
+  ["EOS NOTES FIELD", 1, 3],
+  ["E71	EOS CANVAS COLOR", 1, 5],
+
+  ["EOS 1 PAINT COLOR", 3, 1],
+  ["EOS 2 PAINT COLOR", 3, 2],
+  ["EOS ZOLATONE", 3, 3],
+  ["EOS 1 VINYL", 3, 5],
+  ["EOS 2 VINYL", 3, 6],
+
+  ["SSOB", 6, 2],
+  ["SSOB CODE", 6, 4],
+  
+  ["LSOB", 7, 2],
+  ["LSOB CODE", 7, 4],
+  
+  ["SSHT", 8, 2],
+  ["SSHT CODE", 8, 4],
+  
+  ["23OS", 9, 2],
+  ["23OS CODE", 9, 4],
+  
+  ["SO", 10, 2],
+  ["SO CODE", 10, 4],
+  
+  ["WXL", 11, 2],
+  ["WXL CODE", 11, 4],
+  
+  ["WASO", 12, 2],
+  ["WASO CODE", 12, 4],
+  
+  ["DV", 13, 2],
+  ["DV CODE", 13, 4],
+  
+  ["C", 14, 2],
+  ["C CODE", 14, 4],
+  
+  ["OSP", 15, 2],
+  ["OSP CODE", 15, 4],
+  
+  ["S", 16, 2],
+  ["S CODE", 16, 4],
+  
+  ["EOS DEPARTMENT", 19, 1],
+  ["OUTFITTING NOTE", 21, 1], 
 ]
