@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# row, column, title
+# [0] title, [1] column, [2] row
 topSection = [
     ["OPTION NUMBER", 2, 1],
     ["OPTION NAME", 2, 2],
@@ -131,57 +131,58 @@ topSection = [
     ["35 DESIGN HOURS", 81, 15],
     ["36 DESIGN HOURS", 85, 15],
     ["37 DESIGN HOURS", 89, 15],
-    
 ]
 
 partSection = [
 ]
 
+# [0] title, [1] column, [2] row
 bottomSection = [
   ["EOS QUANTITY", 1, 1],
-  ["EOS LOCATION SELECTION", 1, 2],
-  ["EOS NOTES FIELD", 1, 3],
-  ["E71	EOS CANVAS COLOR", 1, 5],
+  ["EOS LOCATION SELECTION", 2, 1],
+  ["EOS NOTES FIELD", 3, 1],
+  ["E71	EOS CANVAS COLOR", 4, 1],
 
-  ["EOS 1 PAINT COLOR", 3, 1],
-  ["EOS 2 PAINT COLOR", 3, 2],
+  ["EOS 1 PAINT COLOR", 1, 3],
+  ["EOS 2 PAINT COLOR", 2, 3],
   ["EOS ZOLATONE", 3, 3],
-  ["EOS 1 VINYL", 3, 5],
-  ["EOS 2 VINYL", 3, 6],
+  ["EOS 1 VINYL", 4, 3],
+  ["EOS 2 VINYL", 5, 3],
 
-  ["SSOB", 6, 2],
-  ["SSOB CODE", 6, 4],
+  ["SSOB", 2, 6],
+  ["SSOB CODE", 4, 6],
   
-  ["LSOB", 7, 2],
-  ["LSOB CODE", 7, 4],
+  ["LSOB", 2, 7],
+  ["LSOB CODE", 4, 7],
   
-  ["SSHT", 8, 2],
-  ["SSHT CODE", 8, 4],
+  ["SSHT", 2, 8],
+  ["SSHT CODE", 4, 8],
   
-  ["23OS", 9, 2],
-  ["23OS CODE", 9, 4],
+  ["23OS", 2, 9],
+  ["23OS CODE", 4, 9],
   
-  ["SO", 10, 2],
-  ["SO CODE", 10, 4],
+  ["SO", 2, 10],
+  ["SO CODE", 4, 10],
   
-  ["WXL", 11, 2],
-  ["WXL CODE", 11, 4],
+  ["WXL", 2, 11],
+  ["WXL CODE", 4, 11],
   
-  ["WASO", 12, 2],
-  ["WASO CODE", 12, 4],
+  ["WASO", 2, 12],
+  ["WASO CODE", 4, 12],
   
-  ["DV", 13, 2],
-  ["DV CODE", 13, 4],
+  ["DV", 2, 13],
+  ["DV CODE", 4, 13],
   
-  ["C", 14, 2],
-  ["C CODE", 14, 4],
+  ["C", 2, 14],
+  ["C CODE", 4, 14],
   
-  ["OSP", 15, 2],
-  ["OSP CODE", 15, 4],
+  ["OSP", 2, 15],
+  ["OSP CODE", 4, 15],
   
-  ["S", 16, 2],
-  ["S CODE", 16, 4],
+  ["S", 2, 16],
+  ["S CODE", 4, 16],
   
-  ["EOS DEPARTMENT", 19, 1],
-  ["OUTFITTING NOTE", 21, 1], 
+  ["EOS DEPARTMENT", 1, 19],
 ]
+
+# ["OUTFITTING NOTE", 21, 1],

@@ -164,14 +164,37 @@ class background_thread(QThread):
         wb = openpyxl.load_workbook(file, data_only = True)
         ws = wb.active
         option = file.name[:-5]
-        # option = ws['A2'].value
         data = {}
-
-        for ref in topSection:
-            data[ref[0]] = ws.cell(column = ref[1], row = ref[2]).value
-        print([data["OPTION NUMBER"], data])
-        return [str(data["OPTION NUMBER"]), data]
         
+        # find where sections start
+        starts = []
+        for row in ws.iter_cols(min_col=1, max_col=1):
+            for cell in row:
+                if cell.value == "QTY":
+                    starts.append(cell.row)
+
+        # find where sections end
+        ends = []
+        for row in ws.iter_cols(min_col=5, max_col=5):
+            for cell in row:
+                if cell.value == "SUBTOTAL":
+                    ends.append(cell.row)
+        
+        for ref in topSection:
+            value = ws.cell(column = ref[1], row = ref[2]).value
+            if value == "None":
+                value = ""
+            data[ref[0]] = value
+
+        offset = ends[3] + 5
+        for ref in bottomSection:
+            value = ws.cell(column = ref[1], row = ref[2] + offset).value
+            if value == "None":
+                value = ""
+            data[ref[0]] = value
+
+        return [str(data["OPTION NUMBER"]), data]
+
     def run(self):
         self.running = True
         self.emit(SIGNAL('update_progressbar(int)'), 0)
