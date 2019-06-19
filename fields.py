@@ -133,6 +133,99 @@ topSection = [
     ["37 DESIGN HOURS", 89, 15],
 ]
 
+# [0] title, [1] column, [2] row
+startSections = [
+    [" CONSUMABLES", 2, -1],
+    [" LABOR RATE", 4, -1]
+    [" 18 HOURS", 13, -1],
+    [" 19 HOURS", 17, -1],
+    [" 20 HOURS", 21, -1],
+    [" 21 HOURS", 25, -1],
+    [" 22 HOURS", 29, -1],
+    [" 23 HOURS", 33, -1],
+    [" 24 HOURS", 37, -1],
+    [" 25 HOURS", 41, -1],
+    [" 26 HOURS", 45, -1],
+    [" 27 HOURS", 49, -1],
+    [" 28 HOURS", 53, -1],
+    [" 29 HOURS", 57, -1],
+    [" 30 HOURS", 61, -1],
+    [" 31 HOURS", 65, -1],
+    [" 32 HOURS", 69, -1],
+    [" 33 HOURS", 73, -1],
+    [" 34 HOURS", 77, -1],
+    [" 35 HOURS", 81, -1],
+    [" 36 HOURS", 85, -1],
+    [" 37 HOURS", 89, -1],
+]
+
+# [0] title, [1] column, [2] row
+endSections = [
+    [" 18 SUBTOTAL ALL", 13, 0],
+    [" 19 SUBTOTAL ALL", 17, 0],
+    [" 20 SUBTOTAL ALL", 21, 0],
+    [" 21 SUBTOTAL ALL", 25, 0],
+    [" 22 SUBTOTAL ALL", 29, 0],
+    [" 23 SUBTOTAL ALL", 33, 0],
+    [" 24 SUBTOTAL ALL", 37, 0],
+    [" 25 SUBTOTAL ALL", 41, 0],
+    [" 26 SUBTOTAL ALL", 45, 0],
+    [" 27 SUBTOTAL ALL", 49, 0],
+    [" 28 SUBTOTAL ALL", 53, 0],
+    [" 29 SUBTOTAL ALL", 57, 0],
+    [" 30 SUBTOTAL ALL", 61, 0],
+    [" 31 SUBTOTAL ALL", 65, 0],
+    [" 32 SUBTOTAL ALL", 69, 0],
+    [" 33 SUBTOTAL ALL", 73, 0],
+    [" 34 SUBTOTAL ALL", 77, 0],
+    [" 35 SUBTOTAL ALL", 81, 0],
+    [" 36 SUBTOTAL ALL", 85, 0],
+    [" 37 SUBTOTAL ALL", 89, 0],
+
+    [" 18 CONSUMABLES", 13, 1],
+    [" 19 CONSUMABLES", 17, 1],
+    [" 20 CONSUMABLES", 21, 1],
+    [" 21 CONSUMABLES", 25, 1],
+    [" 22 CONSUMABLES", 29, 1],
+    [" 23 CONSUMABLES", 33, 1],
+    [" 24 CONSUMABLES", 37, 1],
+    [" 25 CONSUMABLES", 41, 1],
+    [" 26 CONSUMABLES", 45, 1],
+    [" 27 CONSUMABLES", 49, 1],
+    [" 28 CONSUMABLES", 53, 1],
+    [" 29 CONSUMABLES", 57, 1],
+    [" 30 CONSUMABLES", 61, 1],
+    [" 31 CONSUMABLES", 65, 1],
+    [" 32 CONSUMABLES", 69, 1],
+    [" 33 CONSUMABLES", 73, 1],
+    [" 34 CONSUMABLES", 77, 1],
+    [" 35 CONSUMABLES", 81, 1],
+    [" 36 CONSUMABLES", 85, 1],
+    [" 37 CONSUMABLES", 89, 1],
+
+    [" 18 TOTAL", 13, 2],
+    [" 19 TOTAL", 17, 2],
+    [" 20 TOTAL", 21, 2],
+    [" 21 TOTAL", 25, 2],
+    [" 22 TOTAL", 29, 2],
+    [" 23 TOTAL", 33, 2],
+    [" 24 TOTAL", 37, 2],
+    [" 25 TOTAL", 41, 2],
+    [" 26 TOTAL", 45, 2],
+    [" 27 TOTAL", 49, 2],
+    [" 28 TOTAL", 53, 2],
+    [" 29 TOTAL", 57, 2],
+    [" 30 TOTAL", 61, 2],
+    [" 31 TOTAL", 65, 2],
+    [" 32 TOTAL", 69, 2],
+    [" 33 TOTAL", 73, 2],
+    [" 34 TOTAL", 77, 2],
+    [" 35 TOTAL", 81, 2],
+    [" 36 TOTAL", 85, 2],
+    [" 37 TOTAL", 89, 2],
+]
+
+
 partSection = [
 ]
 
@@ -155,8 +248,8 @@ bottomSection = [
   ["LSOB", 2, 7],
   ["LSOB CODE", 4, 7],
   
-  ["SSHT", 2, 8],
-  ["SSHT CODE", 4, 8],
+  ["SHHT", 2, 8],
+  ["SHHT CODE", 4, 8],
   
   ["23OS", 2, 9],
   ["23OS CODE", 4, 9],
@@ -185,4 +278,4 @@ bottomSection = [
   ["EOS DEPARTMENT", 1, 19],
 ]
 
-# ["OUTFITTING NOTE", 21, 1],
+# ["OUTFITTING NOTES", 21, 1],

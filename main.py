@@ -165,7 +165,7 @@ class background_thread(QThread):
         ws = wb.active
         option = file.name[:-5]
         data = {}
-        
+        sections = ["FABRICATION", "", "", ""]
         # find where sections start
         starts = []
         for row in ws.iter_cols(min_col=1, max_col=1):
@@ -186,6 +186,9 @@ class background_thread(QThread):
                 value = ""
             data[ref[0]] = value
 
+        # Process non-parts portion of sections
+        
+        # Process parts portion of sections
         offset = ends[3] + 5
         for ref in bottomSection:
             value = ws.cell(column = ref[1], row = ref[2] + offset).value
@@ -193,6 +196,13 @@ class background_thread(QThread):
                 value = ""
             data[ref[0]] = value
 
+        # Handle Outfitting Notes
+        if offset + 21 > ws.max_row:
+            value = ""
+        else:
+            value = ws.cell(column = 1, row = offset + 21).value
+        data["OUTFITTING NOTES"] = value
+        
         return [str(data["OPTION NUMBER"]), data]
 
     def run(self):
