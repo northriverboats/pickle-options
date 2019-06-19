@@ -324,4 +324,3 @@ bottomSection = [
   ["EOS DEPARTMENT", 1, 19],
 ]
 
-# ["OUTFITTING NOTES", 21, 1],

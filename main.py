@@ -259,7 +259,7 @@ class background_thread(QThread):
             self.emit(SIGNAL('update_statusbar(QString)'), 'Pickeling %d of %d' % (current_count, total_files))
 
         # if we get to this point, pickle the results....
-        file_name = os.path.join(self.dir, "options.pickle")
+        file_name = os.path.join(self.dir, os.path.split(self.dir)[1].lower() + ".pickle")
         pickle.dump(options, open(file_name, 'wb'))
         self.emit(SIGNAL('endBackgroundTask()'))
 
