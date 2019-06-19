@@ -227,6 +227,7 @@ endSections = [
 
 
 partSection = [
+    
 ]
 
 # [0] title, [1] column, [2] row

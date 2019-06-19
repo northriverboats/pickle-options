@@ -196,9 +196,14 @@ class background_thread(QThread):
                     value = ""
                 data[section + ref[0]] = value
 
-            # Process top non-parts portion of sections
-        for ref in endSections:
-            pass
+        # Process bottom non-parts portion of sections
+        for i, section in enumerate(sections):
+            offset = ends[i]
+            for ref in endSections:
+                value = ws.cell(column = ref[1], row = ref[2] + offset).value
+                if value == "None":
+                    value = ""
+                data[section + ref[0]] = value
        
         # Process parts portion of sections
         offset = ends[3] + 5
