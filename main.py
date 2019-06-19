@@ -6,7 +6,7 @@ from PyQt4.QtCore import QSettings, QSize, QPoint
 from PyQt4.QtCore import QThread, SIGNAL
 from pathlib import Path
 from dotenv import load_dotenv
-from fields import topSection, partSection,  bottomSection
+from fields import topSection, startSections, endSections, partSection,  bottomSection
 import openpyxl
 import pickle
 import sys # We need sys so that we can pass argv to QApplication
@@ -165,7 +165,8 @@ class background_thread(QThread):
         ws = wb.active
         option = file.name[:-5]
         data = {}
-        sections = ["FABRICATION", "", "", ""]
+        sections = ["FABRICATION", "CANVAS", "PAINT", "OUTFITTING"]
+        
         # find where sections start
         starts = []
         for row in ws.iter_cols(min_col=1, max_col=1):
@@ -186,8 +187,19 @@ class background_thread(QThread):
                 value = ""
             data[ref[0]] = value
 
-        # Process non-parts portion of sections
-        
+        # Process top non-parts portion of sections
+        for i, section in enumerate(sections):
+            offset = starts[i]
+            for ref in startSections:
+                value = ws.cell(column = ref[1], row = ref[2] + offset).value
+                if value == "None":
+                    value = ""
+                data[section + ref[0]] = value
+
+            # Process top non-parts portion of sections
+        for ref in endSections:
+            pass
+       
         # Process parts portion of sections
         offset = ends[3] + 5
         for ref in bottomSection:
