@@ -87,6 +87,7 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         my_dir = QtGui.QFileDialog.getExistingDirectory(self, "Open a folder", default_dir, QtGui.QFileDialog.ShowDirsOnly)
         if my_dir != "":
             self.dir = my_dir
+            self.update_progressbar(0)
         self.lePath.setText(self.dir)
 
 
