@@ -166,6 +166,8 @@ class background_thread(QThread):
         ws = wb.active
         option = file.name[:-5]
         data = {}
+        data["FILE"] = file.name
+        data["FULLPATH"] = file.resolve()
         sections = ["FABRICATION", "CANVAS", "PAINT", "OUTFITTING"]
         
         # find where sections start
@@ -182,49 +184,51 @@ class background_thread(QThread):
                 if cell.value == "SUBTOTAL":
                     ends.append(cell.row)
         
-        for ref in topSection:
-            value = ws.cell(column = ref[1], row = ref[2]).value
-            if value == "None":
-                value = ""
-            data[ref[0]] = value
+        for name, column, row, default in topSection:
+            value = ws.cell(column = column, row = row).value
+            if value is None:
+                value = default
+            data[name] = value
 
         # Process top non-parts portion of sections
         for i, section in enumerate(sections):
             offset = starts[i]
-            for ref in startSections:
-                value = ws.cell(column = ref[1], row = ref[2] + offset).value
-                if value == "None":
-                    value = ""
-                data[section + ref[0]] = value
+            for name, column, row, default in startSections:
+                value = ws.cell(column = column, row = row + offset).value
+                if value is None:
+                    value = default
+                data[section + name] = value
 
         # Process bottom non-parts portion of sections
         for i, section in enumerate(sections):
             offset = ends[i]
-            for ref in endSections:
-                value = ws.cell(column = ref[1], row = ref[2] + offset).value
-                if value == "None":
-                    value = ""
-                data[section + ref[0]] = value
+            for name, column, row, default in endSections:
+                value = ws.cell(column = column, row = row + offset).value
+                if value is None:
+                    value = default
+                data[section + name] = value
        
         # Process parts portion of sections
         for i, section in enumerate(sections):
             data[section + " PARTS"] = []
             for offset in range(starts[i], ends[i]-1):
-                part = {}
-                for ref in partSection:
-                    value = ws.cell(column = ref[1], row = ref[2] + offset).value
-                    if value == "None" or value is None:
-                        value = ""
-                    part[ref[0]] = value
-                data[section + " PARTS"].append(part)
+                if ws.cell(column = 2, row = 1 + offset).value is not None:
+                    # print(option, ws.cell(column = 1, row = 1 + offset).value, ws.cell(column = 2, row = 1 + offset).value, ws.cell(column = 3, row = 1 + offset).value)
+                    part = {}
+                    for name, column, row, default in partSection:
+                        value = ws.cell(column = column, row = row + offset).value
+                    if value is None:
+                        value = default
+                        part[name] = value
+                    data[section + " PARTS"].append(part)
         
         # Process bottom section
         offset = ends[3] + 5
-        for ref in bottomSection:
-            value = ws.cell(column = ref[1], row = ref[2] + offset).value
-            if value == "None":
-                value = ""
-            data[ref[0]] = value
+        for name, column, row, default in bottomSection:
+            value = ws.cell(column = column, row = row + offset).value
+            if value is None:
+                value = default
+            data[name] = value
 
         # Handle Outfitting Notes
         if offset + 21 > ws.max_row:
