@@ -217,8 +217,8 @@ class background_thread(QThread):
                     part = {}
                     for name, column, row, default in partSection:
                         value = ws.cell(column = column, row = row + offset).value
-                    if value is None:
-                        value = default
+                        if value is None:
+                            value = default
                         part[name] = value
                     data[section + " PARTS"].append(part)
         
