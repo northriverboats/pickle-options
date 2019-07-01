@@ -20,7 +20,12 @@ Notes:
 patch of the PyInstaller/depend/bindepend.py https://github.com/Loran425/pyinstaller/commit/14b6e65642e4b07a4358bab278019a48dedf7460
 
 Lib\site-packages\PyQt4\pyuic4 MainWindow.ui  -o MainWindow.py
+
+# Developed in C:\Program Files\NRB Pickle Options
 Scripts\pyinstaller.exe --onefile --windowed --icon options.ico  --name "Options Fodler Pickler" "NRB Pickle Options FWW.spec" main.py
+
+# Developed in C:\Development\nrb-pickle-options
+Scripts\pyinstaller.exe --onefile --windowed --icon options.ico  --name "Options Fodler Pickler" "NRB Pickle Options Dev.spec" main.py
 
 ToDo's
 """
