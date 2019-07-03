@@ -231,6 +231,8 @@ partSection = [
     ["DESCRIPTION", 3, 1, ""],
     ["UOM", 4, 1, ""],
     ["PRICE", 5, 1, "0"],
+    ["VENDOR", 8, 1, ""],
+    ["VENDOR PART", 9, 1, ""],
 
     ["18 QTY", 10, 1, "0"],
     ["19 QTY", 14, 1, "0"],
