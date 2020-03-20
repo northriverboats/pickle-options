@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
-"""
 from PyQt4 import QtGui # Import the PyQt4 module we'll need
 from PyQt4.QtCore import QSettings, QSize, QPoint, QCoreApplication, QThread, SIGNAL # pylint: disable-msg=E0611
-"""
 from pathlib import Path
 from dotenv import load_dotenv
 from fields import start, end, width, sections
@@ -33,7 +31,6 @@ venv\Scripts\pyinstaller.exe --onefile --windowed --icon options.ico  --name "Op
 ToDo's
 """
 
-"""
 class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
 
     def __init__(self):
@@ -148,7 +145,7 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         
     def update_label(self, label):
         self.lblFile.setText(label)
-"""
+
 
 class pickler():
     def __init__(self, dir):
@@ -362,7 +359,7 @@ class pickler():
 
         return [str(self.data["OPTION NUMBER"]), self.data, self.output_not_found(), self.output_dupes()]
 
-"""        
+
 class background_thread(QThread):
     def __init__(self, dir):
         QThread.__init__(self)
@@ -428,7 +425,7 @@ def gui():
     form = MainAppWindow()              # We set the form to be our Main App Wehdiw (design)
     form.show()                         # Show the form
     app.exec_()                         # and execute the app
-"""
+
 
 def cli(folder):
     pickle_folder = pickler(folder)
@@ -462,8 +459,7 @@ def cli(folder):
 @click.option('--folder', '-f', type=click.Path(exists=True, file_okay=False), help="folder to process")
 def main(folder):
     if folder == None:
-        pass
-        # gui()
+        gui()
     else:
         cli(folder)
 
