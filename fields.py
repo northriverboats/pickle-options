@@ -1,288 +1,123 @@
 #!/usr/bin/env python
 
-# [0] title, [1] column, [2] row, [3] default
-topSection = [
-    ["OPTION NUMBER", 2, 1, ""],
-    ["OPTION NAME", 2, 2, ""],
-    ["OPTION NOTES", 2, 3, ""],
-    ["TOTAL COST", 2, 9, "0"],
-    ["CALCULATED RETAIL", 2, 10, "0"],
-    ["ADVERTISED RETAIL", 2, 11, "0"],
-    ["CONTRIBUTION MARGIN", 2, 12, "0"],
-    ["DESIGN LABOR RATE", 2, 15, "0"],
-    
-    ["18 LABOR TOTAL", 13, 2, "0"],
-    ["18 MATERIAL TOTAL", 13, 3, "0"],
-    ["18 OVERHEAD CALCULATION", 13, 4, "0"],
-    ["18 TOTAL COST", 13, 5, "0"],
+start = 1  # column QTY can be found in
+end = 5    # column with CREDIT - TOTAL
+width = 4  # width of boat sizes across the top
 
-    ["19 LABOR TOTAL", 17, 2, "0"],
-    ["19 MATERIAL TOTAL", 17, 3, "0"],
-    ["19 OVERHEAD CALCULATION", 17, 4, "0"],
-    ["19 TOTAL COST", 17, 5, "0"],
-
-    ["20 LABOR TOTAL", 21, 2, "0"],
-    ["20 MATERIAL TOTAL", 21, 3, "0"],
-    ["20 OVERHEAD CALCULATION", 21, 4, "0"],
-    ["20 TOTAL COST", 21, 5, "0"],
-    
-    ["21 LABOR TOTAL", 25, 2, "0"],
-    ["21 MATERIAL TOTAL", 25, 3, "0"],
-    ["21 OVERHEAD CALCULATION", 25, 4, "0"],
-    ["21 TOTAL COST", 25, 5, "0"],
-    
-    ["22 LABOR TOTAL", 29, 2, "0"],
-    ["22 MATERIAL TOTAL", 29, 3, "0"],
-    ["22 OVERHEAD CALCULATION", 29, 4, "0"],
-    ["22 TOTAL COST", 29, 5, "0"],
-    
-    ["23 LABOR TOTAL", 33, 2, "0"],
-    ["23 MATERIAL TOTAL", 33, 3, "0"],
-    ["23 OVERHEAD CALCULATION", 33, 4, "0"],
-    ["23 TOTAL COST", 33, 5, "0"],
-    
-    ["24 LABOR TOTAL", 37, 2, "0"],
-    ["24 MATERIAL TOTAL", 37, 3, "0"],
-    ["24 OVERHEAD CALCULATION", 37, 4, "0"],
-    ["24 TOTAL COST", 37, 5, "0"],
-    
-    ["25 LABOR TOTAL", 41, 2, "0"],
-    ["25 MATERIAL TOTAL", 41, 3, "0"],
-    ["25 OVERHEAD CALCULATION", 41, 4, "0"],
-    ["25 TOTAL COST", 41, 5, "0"],
-    
-    ["26 LABOR TOTAL", 45, 2, "0"],
-    ["26 MATERIAL TOTAL", 45, 3, "0"],
-    ["26 OVERHEAD CALCULATION", 45, 4, "0"],
-    ["26 TOTAL COST", 45, 5, "0"],
-    
-    ["27 LABOR TOTAL", 49, 2, "0"],
-    ["27 MATERIAL TOTAL", 49, 3, "0"],
-    ["27 OVERHEAD CALCULATION", 49, 4, "0"],
-    ["27 TOTAL COST", 49, 5, "0"],
-    
-    ["28 LABOR TOTAL", 53, 2, "0"],
-    ["28 MATERIAL TOTAL", 53, 3, "0"],
-    ["28 OVERHEAD CALCULATION", 53, 4, "0"],
-    ["28 TOTAL COST", 53, 5, "0"],
-    
-    ["29 LABOR TOTAL", 57, 2, "0"],
-    ["29 MATERIAL TOTAL", 57, 3, "0"],
-    ["29 OVERHEAD CALCULATION", 21, 4, "0"],
-    ["29 TOTAL COST", 57, 5, "0"],
-    
-    ["30 LABOR TOTAL", 61, 2, "0"],
-    ["30 MATERIAL TOTAL", 61, 3, "0"],
-    ["30 OVERHEAD CALCULATION", 61, 4, "0"],
-    ["30 TOTAL COST", 61, 5, "0"],
-    
-    ["31 LABOR TOTAL", 65, 2, "0"],
-    ["31 MATERIAL TOTAL", 65, 3, "0"],
-    ["31 OVERHEAD CALCULATION", 65, 4, "0"],
-    ["31 TOTAL COST", 65, 5, "0"],
-    
-    ["32 LABOR TOTAL", 69, 2, "0"],
-    ["32 MATERIAL TOTAL", 69, 3, "0"],
-    ["32 OVERHEAD CALCULATION", 69, 4, "0"],
-    ["32 TOTAL COST", 69, 5, "0"],
-    
-    ["33 LABOR TOTAL", 73, 2, "0"],
-    ["33 MATERIAL TOTAL", 73, 3, "0"],
-    ["33 OVERHEAD CALCULATION", 73, 4, "0"],
-    ["33 TOTAL COST", 73, 5, "0"],
-    
-    ["34 LABOR TOTAL", 77, 2, "0"],
-    ["34 MATERIAL TOTAL", 77, 3, "0"],
-    ["34 OVERHEAD CALCULATION", 77, 4, "0"],
-    ["34 TOTAL COST", 77, 5, "0"],
-    
-    ["35 LABOR TOTAL", 81, 2, "0"],
-    ["35 MATERIAL TOTAL", 81, 3, "0"],
-    ["35 OVERHEAD CALCULATION", 81, 4, "0"],
-    ["35 TOTAL COST", 81, 5, "0"],
-    
-    ["36 LABOR TOTAL", 85, 2, "0"],
-    ["36 MATERIAL TOTAL", 85, 3, "0"],
-    ["36 OVERHEAD CALCULATION", 85, 4, "0"],
-    ["36 TOTAL COST", 85, 5, "0"],
-    
-    ["37 LABOR TOTAL", 89, 2, "0"],
-    ["37 MATERIAL TOTAL", 89, 3, "0"],
-    ["37 OVERHEAD CALCULATION", 89, 4, "0"],
-    ["37 TOTAL COST", 89, 5, "0"],
-    
-    ["18 DESIGN HOURS", 12, 15, "0"],
-    ["19 DESIGN HOURS", 16, 15, "0"],
-    ["20 DESIGN HOURS", 20, 15, "0"],
-    ["21 DESIGN HOURS", 24, 15, "0"],
-    ["22 DESIGN HOURS", 28, 15, "0"],
-    ["23 DESIGN HOURS", 32, 15, "0"],
-    ["24 DESIGN HOURS", 36, 15, "0"],
-    ["25 DESIGN HOURS", 40, 15, "0"],
-    ["26 DESIGN HOURS", 44, 15, "0"],
-    ["27 DESIGN HOURS", 48, 15, "0"],
-    ["28 DESIGN HOURS", 52, 15, "0"],
-    ["29 DESIGN HOURS", 56, 15, "0"],
-    ["30 DESIGN HOURS", 60, 15, "0"],
-    ["31 DESIGN HOURS", 64, 15, "0"],
-    ["32 DESIGN HOURS", 68, 15, "0"],
-    ["33 DESIGN HOURS", 72, 15, "0"],
-    ["34 DESIGN HOURS", 76, 15, "0"],
-    ["35 DESIGN HOURS", 80, 15, "0"],
-    ["36 DESIGN HOURS", 84, 15, "0"],
-    ["37 DESIGN HOURS", 88, 15, "0"],
+sections = [
+    "TRAILER",
+    "FABRICATION",
+    "CANVAS",
+    "PAINT",
+    "OUTFITTING"
 ]
 
+##  TOP BAND        #########################################################
+
+# top of sheet, absolute row, absolute column - not by boat size
+# [0] title, [1] column, [2] row, [3] default
+topSection = [
+    ["OPTION NUMBER", 3, 1, ""],
+    ["OPTION NAME", 3, 2, ""],
+    ["OPTION NOTES", 3, 3, ""],
+    ["TOTAL COST", 3, 6, "0"],
+    ["CALCULATED RETAIL", 3, 7, "0"],
+    ["ADVERTISED RETAIL", 3, 8, "0"],
+    ["CONTRIBUTION MARGIN", 3, 9, "0"],
+	["TRAILER/MOTOR OVERHEAD", 4, 11, "N"],
+	["SMALLEST BOAT", 4, 12, "18.5"],
+	["LARGEST BOAT", 4, 13, "37"],
+    ["DESIGN LABOR RATE", 4, 22, "0"],
+]
+
+# need design labor codes here ....
+
+
+# top of sheet, calculated column, absolute row - by boat size
+# [0] title, [1] column, [2] row, [3] default
+costSummary = [
+    [" TOTAL COST", 16, 2, "0"],
+    [" RETAIL CALCULATED", 16, 3, "0"],
+    [" RETAIL ADVERTISED", 16, 4, "0"],
+    [" CONTRIBUTION MARGIN", 16, 5, "0"],
+	[" LABOR COST", 16, 8, "0"],
+	[" MATERIAL COST", 16, 9, "0"],
+    [" OVEHEAD CALCULATION COST", 16, 10, "0"],
+	[" RETAIL CALCULATED COST", 16, 11, "0"],
+	[" CALCULATED DEALER INVOICE", 16, 12, "0"],
+	[" LABOR CREDIT", 16, 15, "0"],
+	[" MATERIAL CREDIT", 16, 16, "0"],
+	[" OVERHEAD CALCULATION CREDIT", 16, 17, "0"],
+	[" TOTAL CREDIT", 16, 18, "0"],
+	[" RETAIL CALCULATED CREDIT", 16, 19, "0"],
+]
+
+##  SECTION BANDS  ##########################################################
+
+# top of section, absolute column, offset row - not by boat size
 # [0] title, [1] column, [2] row, [3] default
 startSections = [
     [" CONSUMABLES", 2, -1, "0"],
     [" LABOR RATE", 4, -1, "0"],
-    [" 18 HOURS", 12, -1, "0"],
-    [" 19 HOURS", 16, -1, "0"],
-    [" 20 HOURS", 20, -1, "0"],
-    [" 21 HOURS", 24, -1, "0"],
-    [" 22 HOURS", 28, -1, "0"],
-    [" 23 HOURS", 32, -1, "0"],
-    [" 24 HOURS", 36, -1, "0"],
-    [" 25 HOURS", 40, -1, "0"],
-    [" 26 HOURS", 44, -1, "0"],
-    [" 27 HOURS", 48, -1, "0"],
-    [" 28 HOURS", 52, -1, "0"],
-    [" 29 HOURS", 56, -1, "0"],
-    [" 30 HOURS", 60, -1, "0"],
-    [" 31 HOURS", 64, -1, "0"],
-    [" 32 HOURS", 68, -1, "0"],
-    [" 33 HOURS", 72, -1, "0"],
-    [" 34 HOURS", 76, -1, "0"],
-    [" 35 HOURS", 80, -1, "0"],
-    [" 36 HOURS", 84, -1, "0"],
-    [" 37 HOURS", 85, -1, "0"],
 ]
 
+# top of section, calculated column, offset row - by boat size
+# [0] title, [1] column, [2] row, [3] default
+startSectionsSize = [
+    [" HOURS", 15, -1, "0"],
+	[" HOURS TOTAL", 16, -1, "0"],
+]
+
+# bottom of section, calculated column, offset row
 # [0] title, [1] column, [2] row, [3] default
 endSections = [
-    [" 18 SUBTOTAL ALL", 13, 0, "0"],
-    [" 19 SUBTOTAL ALL", 17, 0, "0"],
-    [" 20 SUBTOTAL ALL", 21, 0, "0"],
-    [" 21 SUBTOTAL ALL", 25, 0, "0"],
-    [" 22 SUBTOTAL ALL", 29, 0, "0"],
-    [" 23 SUBTOTAL ALL", 33, 0, "0"],
-    [" 24 SUBTOTAL ALL", 37, 0, "0"],
-    [" 25 SUBTOTAL ALL", 41, 0, "0"],
-    [" 26 SUBTOTAL ALL", 45, 0, "0"],
-    [" 27 SUBTOTAL ALL", 49, 0, "0"],
-    [" 28 SUBTOTAL ALL", 53, 0, "0"],
-    [" 29 SUBTOTAL ALL", 57, 0, "0"],
-    [" 30 SUBTOTAL ALL", 61, 0, "0"],
-    [" 31 SUBTOTAL ALL", 65, 0, "0"],
-    [" 32 SUBTOTAL ALL", 69, 0, "0"],
-    [" 33 SUBTOTAL ALL", 73, 0, "0"],
-    [" 34 SUBTOTAL ALL", 77, 0, "0"],
-    [" 35 SUBTOTAL ALL", 81, 0, "0"],
-    [" 36 SUBTOTAL ALL", 85, 0, "0"],
-    [" 37 SUBTOTAL ALL", 89, 0, "0"],
+    [" CREDIT TOTAL", 16, 0, "0"],
+    [" COST SUBTOTAL", 16, 1, "0"],
+    [" COST CONSUMABLES", 16, 2, "0"],
+    [" COST TOTAL", 16, 3, "0"],
+]
 
-    [" 18 CONSUMABLES", 13, 1, "0"],
-    [" 19 CONSUMABLES", 17, 1, "0"],
-    [" 20 CONSUMABLES", 21, 1, "0"],
-    [" 21 CONSUMABLES", 25, 1, "0"],
-    [" 22 CONSUMABLES", 29, 1, "0"],
-    [" 23 CONSUMABLES", 33, 1, "0"],
-    [" 24 CONSUMABLES", 37, 1, "0"],
-    [" 25 CONSUMABLES", 41, 1, "0"],
-    [" 26 CONSUMABLES", 45, 1, "0"],
-    [" 27 CONSUMABLES", 49, 1, "0"],
-    [" 28 CONSUMABLES", 53, 1, "0"],
-    [" 29 CONSUMABLES", 57, 1, "0"],
-    [" 30 CONSUMABLES", 61, 1, "0"],
-    [" 31 CONSUMABLES", 65, 1, "0"],
-    [" 32 CONSUMABLES", 69, 1, "0"],
-    [" 33 CONSUMABLES", 73, 1, "0"],
-    [" 34 CONSUMABLES", 77, 1, "0"],
-    [" 35 CONSUMABLES", 81, 1, "0"],
-    [" 36 CONSUMABLES", 85, 1, "0"],
-    [" 37 CONSUMABLES", 89, 1, "0"],
-
-    [" 18 TOTAL", 13, 2, "0"],
-    [" 19 TOTAL", 17, 2, "0"],
-    [" 20 TOTAL", 21, 2, "0"],
-    [" 21 TOTAL", 25, 2, "0"],
-    [" 22 TOTAL", 29, 2, "0"],
-    [" 23 TOTAL", 33, 2, "0"],
-    [" 24 TOTAL", 37, 2, "0"],
-    [" 25 TOTAL", 41, 2, "0"],
-    [" 26 TOTAL", 45, 2, "0"],
-    [" 27 TOTAL", 49, 2, "0"],
-    [" 28 TOTAL", 53, 2, "0"],
-    [" 29 TOTAL", 57, 2, "0"],
-    [" 30 TOTAL", 61, 2, "0"],
-    [" 31 TOTAL", 65, 2, "0"],
-    [" 32 TOTAL", 69, 2, "0"],
-    [" 33 TOTAL", 73, 2, "0"],
-    [" 34 TOTAL", 77, 2, "0"],
-    [" 35 TOTAL", 81, 2, "0"],
-    [" 36 TOTAL", 85, 2, "0"],
-    [" 37 TOTAL", 89, 2, "0"],
+endSectionsSize = [
+    [" CREDIT TOTAL", 16, 0, "0"],
+    [" COST SUBTOTAL", 16, 1, "0"],
+    [" COST CONSUMABLES", 16, 2, "0"],
+    [" COST TOTAL", 16, 3, "0"],
 ]
 
 
+# 1/2 body of section, absolute column, offset row
+# [0] title, [1] column, [2] row, [3] default
 partSection = [
+    ["QTY NUMBER", 1, 1, ""],
     ["PART NUMBER", 2, 1, ""],
     ["DESCRIPTION", 3, 1, ""],
     ["UOM", 4, 1, ""],
     ["PRICE", 5, 1, "0"],
-    ["VENDOR", 8, 1, ""],
-    ["VENDOR PART", 9, 1, ""],
-
-    ["18 QTY", 10, 1, "0"],
-    ["19 QTY", 14, 1, "0"],
-    ["20 QTY", 18, 1, "0"],
-    ["21 QTY", 22, 1, "0"],
-    ["22 QTY", 26, 1, "0"],
-    ["23 QTY", 30, 1, "0"],
-    ["24 QTY", 34, 1, "0"],
-    ["25 QTY", 38, 1, "0"],
-    ["26 QTY", 44, 1, "0"],
-    ["27 QTY", 46, 1, "0"],
-    ["28 QTY", 50, 1, "0"],
-    ["29 QTY", 54, 1, "0"],
-    ["30 QTY", 58, 1, "0"],
-    ["31 QTY", 62, 1, "0"],
-    ["32 QTY", 66, 1, "0"],
-    ["33 QTY", 70, 1, "0"],
-    ["34 QTY", 74, 1, "0"],
-    ["35 QTY", 78, 1, "0"],
-    ["36 QTY", 82, 1, "0"],
-    ["37 QTY", 86, 1, "0"],
-
-    ["18 TOTAL", 13, 1, "0"],
-    ["19 TOTAL", 17, 1, "0"],
-    ["20 TOTAL", 21, 1, "0"],
-    ["21 TOTAL", 25, 1, "0"],
-    ["22 TOTAL", 29, 1, "0"],
-    ["23 TOTAL", 33, 1, "0"],
-    ["24 TOTAL", 37, 1, "0"],
-    ["25 TOTAL", 41, 1, "0"],
-    ["26 TOTAL", 45, 1, "0"],
-    ["27 TOTAL", 49, 1, "0"],
-    ["28 TOTAL", 53, 1, "0"],
-    ["29 TOTAL", 57, 1, "0"],
-    ["30 TOTAL", 61, 1, "0"],
-    ["31 TOTAL", 65, 1, "0"],
-    ["32 TOTAL", 69, 1, "0"],
-    ["33 TOTAL", 73, 1, "0"],
-    ["34 TOTAL", 77, 1, "0"],
-    ["35 TOTAL", 81, 1, "0"],
-    ["36 TOTAL", 85, 1, "0"],
-    ["37 TOTAL", 89, 1, "0"],
+    ["TOTAL", 6, 1, "0"],
+    ["VENDOR", 11, 1, ""],
+    ["VENDOR PART", 12, 1, ""],
+    ['PICKLIST', 99, 1, ""],
 ]
+
+# 2/2 body of section, calculated column, offset row
+# [0] title, [1] column, [2] row, [3] default
+partSectionByModel = [
+    [" QTY", 13, 1, "0"],
+    [" UOM", 14, 1, "0"],
+    [" PRICE", 15, 1, "0"],
+    [" TOTAL", 16, 1, "0"],
+]
+
+
+##  BOTTOM BAND    ##########################################################
 
 # [0] title, [1] column, [2] row, [3] default
 bottomSection = [
   ["EOS QUANTITY", 1, 1, ""],
   ["EOS LOCATION SELECTION", 2, 1, ""],
   ["EOS NOTES FIELD", 3, 1, ""],
-  ["E71	EOS CANVAS COLOR", 4, 1, ""],
+  ["EOS CANVAS COLOR", 4, 1, ""],
+  ["EOS CABIN OPTION", 5, 1, ""],
 
   ["EOS 1 PAINT COLOR", 1, 3, ""],
   ["EOS 2 PAINT COLOR", 2, 3, ""],
@@ -292,36 +127,94 @@ bottomSection = [
 
   ["SSOB", 2, 6, ""],
   ["SSOB CODE", 4, 6, ""],
+  ["SSOB CATEGORY", 5, 6, ""],
+  ["SSOB NO CHARGE/OVERRIDE", 6, 6, ""],
   
   ["LSOB", 2, 7, ""],
   ["LSOB CODE", 4, 7, ""],
+  ["LSOB CATEGORY", 5, 7, ""],
+  ["LSOB NO CHARGE/OVERRIDE", 6, 7, ""],
   
   ["SHHT", 2, 8, ""],
   ["SHHT CODE", 4, 8, ""],
+  ["SHHT CATEGORY", 5, 8, ""],
+  ["SSHT NO CHARGE/OVERRIDE", 6, 8, ""],
   
-  ["23OS", 2, 9, ""],
-  ["23OS CODE", 4, 9, ""],
+  ["SHFB", 2, 9, ""],
+  ["SHFB CODE", 4, 9, ""],
+  ["SHFB CATEGORY", 5, 9, ""],
+  ["SHFB NO CHARGE/OVERRIDE", 6, 9, ""],
+ 
+  ["23OS", 2, 10, ""],
+  ["23OS CODE", 4, 10, ""],
+  ["SHFB CATEGORY", 5, 10, ""],
+  ["SHFB NO CHARGE/OVERRIDE", 6, 10, ""],
   
-  ["SO", 2, 10, ""],
-  ["SO CODE", 4, 10, ""],
+  ["SO", 2, 11, ""],
+  ["SO CODE", 4, 11, ""],
+  ["SHFB CATEGORY", 5, 11, ""],
+  ["SHFB NO CHARGE/OVERRIDE", 6, 11, ""],
   
-  ["WXL", 2, 11, ""],
-  ["WXL CODE", 4, 11, ""],
+  ["WXL", 2, 12, ""],
+  ["WXL CODE", 4, 12, ""],
+  ["SHFB CATEGORY", 5, 12, ""],
+  ["SHFB NO CHARGE/OVERRIDE", 6, 12, ""],
+
+  ["25OS", 2, 13, ""],
+  ["25OS CODE", 4, 13, ""],
+  ["25OS CATEGORY", 5, 13, ""],
+  ["25OS NO CHARGE/OVERRIDE", 6, 13, ""],
+
+  ["27OS", 2, 14, ""],
+  ["27OS CODE", 4, 14, ""],
+  ["27OS CATEGORY", 5, 14, ""],
+  ["27OS NO CHARGE/OVERRIDE", 6, 14, ""],
+
+  ["29OS", 2, 15, ""],
+  ["29OS CODE", 4, 15, ""],
+  ["29OS CATEGORY", 5, 15, ""],
+  ["29OS NO CHARGE/OVERRIDE", 6, 15, ""],
+
+  ["31OS", 2, 16, ""],
+  ["31OS CODE", 4, 16, ""],
+  ["31OS CATEGORY", 5, 16, ""],
+  ["31OS NO CHARGE/OVERRIDE", 6, 16, ""],
+
+  ["33OS", 2, 17, ""],
+  ["33OS CODE", 4, 17, ""],
+  ["33OS CATEGORY", 5, 17, ""],
+  ["33OS NO CHARGE/OVERRIDE", 6, 17, ""],
+
+  ["35OS", 2, 18, ""],
+  ["35OS CODE", 4, 18, ""],
+  ["35OS CATEGORY", 5, 18, ""],
+  ["35OS NO CHARGE/OVERRIDE", 6, 18, ""],
   
-  ["WASO", 2, 12, ""],
-  ["WASO CODE", 4, 12, ""],
+  ["WASO", 2, 19, ""],
+  ["WASO CODE", 4, 19, ""],
+  [" CATEGORY", 5, 19, ""],
+  [" NO CHARGE/OVERRIDE", 6, 19, ""],
   
-  ["DV", 2, 13, ""],
-  ["DV CODE", 4, 13, ""],
+  ["DV", 2, 20, ""],
+  ["DV CODE", 4, 20, ""],
+  [" CATEGORY", 5, 20, ""],
+  [" NO CHARGE/OVERRIDE", 6, 20, ""],
   
-  ["C", 2, 14, ""],
-  ["C CODE", 4, 14, ""],
+  ["C", 2, 21, ""],
+  ["C CODE", 4, 21, ""],
+  [" CATEGORY", 5, 21, ""],
+  [" NO CHARGE/OVERRIDE", 6, 21, ""],
   
-  ["OSP", 2, 15, ""],
-  ["OSP CODE", 4, 15, ""],
+  ["OSP", 2, 22, ""],
+  ["OSP CODE", 4, 22, ""],
+  [" CATEGORY", 5, 22, ""],
+  [" NO CHARGE/OVERRIDE", 6, 22, ""],
   
-  ["S", 2, 16, ""],
-  ["S CODE", 4, 16, ""],
+  ["S", 2, 23, ""],
+  ["S CODE", 4, 23, ""],
+  [" CATEGORY", 5, 23, ""],
+  [" NO CHARGE/OVERRIDE", 6, 23, ""],
   
-  ["EOS DEPARTMENT", 1, 19, ""],
+  ["EOS DEPARTMENT", 1, 26, ""],
+  ["EOS OUTFITTING NOTES", 1, 26, ""],
 ]
