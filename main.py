@@ -183,7 +183,7 @@ class pickler():
     def output_dupes(self):
         output = ""
         for error in sorted(self.dupes, key=lambda x: [x[0], x[1], x[2]]):
-            output += " {:30.30}    {:12.12}    {:30.30}\n".format(error[0], error[1], error[2])
+            output += " {:30.30}    {:12.12}    {:30.30}\n".format(str(error[0]), str(error[1]), str(error[2]))
         return output
 
 
