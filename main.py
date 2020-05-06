@@ -363,7 +363,7 @@ class pickler():
         # process top non-section band
         self.process_top_section() # only non-boat-size at top of sheet
         self.process_cost_summary_by_boat_size() # only by-boat-size at top of sheet
-		process_bottom_section() # only non-boat-size at bottom of sheet
+        process_bottom_section() # only non-boat-size at bottom of sheet
         
         # process section bands
         self.process_section_top() # only non-boat-size
