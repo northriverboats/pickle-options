@@ -230,6 +230,15 @@ class pickler():
                 if value is None:
                     value = default
                 self.data[str(boatSize) + name] = value
+				
+    def process_bottom_section(self):
+        # Process bottom section
+        offset = ends[3] + 5
+        for name, column, row, default in bottomSection:
+            value = ws.cell(column = column, row = row + offset).value
+            if value is None:
+                value = default
+            data[name] = value				
 
     #### PROCESS SECTION PORTIONS OF THE SHEET SUPPORTING FUNCTIONS #############
     def process_inner_section_top(self, index, offset, section):
@@ -328,6 +337,10 @@ class pickler():
         for i, section in enumerate(sections):
             offset = self.ends[i]
             self.process_section_by_boat_sizes(offset, section, self.process_inner_section_bottom_by_boat_size)
+			
+			
+			
+			
 
 
     #### PROCESS FULL SHEET ##########################
