@@ -233,12 +233,12 @@ class pickler():
 				
     def process_bottom_section(self):
         # Process bottom section
-        offset = ends[3] + 5
+        offset = self.ends[3] + 5
         for name, column, row, default in bottomSection:
-            value = ws.cell(column = column, row = row + offset).value
+            value = self.ws.cell(column = column, row = row + offset).value
             if value is None:
                 value = default
-            data[name] = value				
+            self.data[name] = value				
 
     #### PROCESS SECTION PORTIONS OF THE SHEET SUPPORTING FUNCTIONS #############
     def process_inner_section_top(self, index, offset, section):
