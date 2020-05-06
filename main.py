@@ -233,7 +233,7 @@ class pickler():
 				
     def process_bottom_section(self):
         # Process bottom section
-        offset = self.ends[3] + 5
+        offset = self.ends[4] + 6
         for name, column, row, default in bottomSection:
             value = self.ws.cell(column = column, row = row + offset).value
             if value is None:
