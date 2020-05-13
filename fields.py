@@ -24,9 +24,9 @@ topSection = [
     ["CALCULATED RETAIL", 3, 7, "0"],
     ["ADVERTISED RETAIL", 3, 8, "0"],
     ["CONTRIBUTION MARGIN", 3, 9, "0"],
-	["TRAILER/MOTOR OVERHEAD", 4, 11, "N"],
-	["SMALLEST BOAT", 4, 12, "18.5"],
-	["LARGEST BOAT", 4, 13, "37"],
+    ["TRAILER/MOTOR OVERHEAD", 4, 11, "N"],
+    ["SMALLEST BOAT", 4, 12, "18.5"],
+    ["LARGEST BOAT", 4, 13, "37"],
     ["DESIGN LABOR RATE", 4, 22, "0"],
 ]
 
@@ -40,16 +40,16 @@ costSummary = [
     [" RETAIL CALCULATED", 16, 3, "0"],
     [" RETAIL ADVERTISED", 16, 4, "0"],
     [" CONTRIBUTION MARGIN", 16, 5, "0"],
-	[" LABOR COST", 16, 8, "0"],
-	[" MATERIAL COST", 16, 9, "0"],
+    [" LABOR COST", 16, 8, "0"],
+    [" MATERIAL COST", 16, 9, "0"],
     [" OVEHEAD CALCULATION COST", 16, 10, "0"],
-	[" RETAIL CALCULATED COST", 16, 11, "0"],
-	[" CALCULATED DEALER INVOICE", 16, 12, "0"],
-	[" LABOR CREDIT", 16, 15, "0"],
-	[" MATERIAL CREDIT", 16, 16, "0"],
-	[" OVERHEAD CALCULATION CREDIT", 16, 17, "0"],
-	[" TOTAL CREDIT", 16, 18, "0"],
-	[" RETAIL CALCULATED CREDIT", 16, 19, "0"],
+    [" RETAIL CALCULATED COST", 16, 11, "0"],
+    [" CALCULATED DEALER INVOICE", 16, 12, "0"],
+    [" LABOR CREDIT", 16, 15, "0"],
+    [" MATERIAL CREDIT", 16, 16, "0"],
+    [" OVERHEAD CALCULATION CREDIT", 16, 17, "0"],
+    [" TOTAL CREDIT", 16, 18, "0"],
+    [" RETAIL CALCULATED CREDIT", 16, 19, "0"],
 ]
 
 ##  SECTION BANDS  ##########################################################
@@ -65,7 +65,7 @@ startSections = [
 # [0] title, [1] column, [2] row, [3] default
 startSectionsSize = [
     [" HOURS", 15, -1, "0"],
-	[" HOURS TOTAL", 16, -1, "0"],
+    [" HOURS TOTAL", 16, -1, "0"],
 ]
 
 # bottom of section, calculated column, offset row
@@ -216,5 +216,5 @@ bottomSection = [
   [" NO CHARGE/OVERRIDE", 6, 23, ""],
   
   ["EOS DEPARTMENT", 1, 26, ""],
-  ["EOS OUTFITTING NOTES", 1, 26, ""],
+  ["EOS OUTFITTING NOTES", 1, 28, ""],
 ]
