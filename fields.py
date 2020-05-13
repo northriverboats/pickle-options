@@ -216,5 +216,5 @@ bottomSection = [
   [" NO CHARGE/OVERRIDE", 6, 23, ""],
   
   ["EOS DEPARTMENT", 1, 26, ""],
-  ["EOS OUTFITTING NOTES", 1, 28, ""],
+  ["EOS OUTFITTING NOTES", 1, 29, ""],
 ]
