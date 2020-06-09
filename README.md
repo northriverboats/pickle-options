@@ -1,4 +1,4 @@
-# NRB PICKLE BOATS
+# NRB PICKLE OPTIONS 
 To Edit Source Code and Work with GIT
 1.	Use Git Bash
 2.	`cd ../../Development`
