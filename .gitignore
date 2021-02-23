@@ -1,9 +1,9 @@
 .direnv/*
-venv/*
-.venv/*
 __pycache__/*
 build/*
 dist/*
+.venv/*
+venv/*
 .env
 *.pyc
 Lib/*
