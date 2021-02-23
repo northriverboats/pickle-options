@@ -1,45 +1,45 @@
 #!/usr/bin/env python
 
 from PyQt4 import QtGui # Import the PyQt4 module we'll need
-from PyQt4.QtCore import QSettings, QSize, QPoint, QCoreApplication, QThread, SIGNAL # pylint: disable-msg=E0611
+from PyQt4 import QtCore
+from PyQt4.QtCore import QSettings, QSize, QPoint
+from PyQt4.QtCore import QThread, SIGNAL
 from pathlib import Path
 from dotenv import load_dotenv
-from fields import start, end, width, sections
-from fields import topSection, costSummary, bottomSection
-from fields import startSections, startSectionsSize, endSections, partSection, partSectionByModel
+from fields import topSection, startSections, endSections, partSection,  bottomSection
 import openpyxl
 import pickle
 import sys # We need sys so that we can pass argv to QApplication
-import tempfile
 import os
 import re
-import click
 import MainWindow  # This file holds our MainWindow and all design related things
 
 
-
-r"""
+"""
 Notes:
+patch of the PyInstaller/depend/bindepend.py https://github.com/Loran425/pyinstaller/commit/14b6e65642e4b07a4358bab278019a48dedf7460
 
-To design UI: Lib\site-packages\PyQt4\Designer.exe
+Lib\site-packages\PyQt4\pyuic4 MainWindow.ui  -o MainWindow.py
 
-To rebuild UI: Lib\site-packages\PyQt4\pyuic4 MainWindow.ui  -o MainWindow.py
+# Developed in C:\\Program Files\\NRB Pickle Options
+Scripts\pyinstaller.exe --onefile --windowed --icon options.ico  --name "Options Fodler Pickler" "NRB Pickle Options FWW.spec" main.py
 
-Developed in C:\\Development\\nrb-pickle-boats :
-venv\Scripts\pyinstaller.exe --onefile --windowed --icon options.ico  --name "Options Pickler" "Pickle Options FWW.spec" main.py
+# Developed in C:\\Development\\nrb-pickle-options
+Scripts\pyinstaller.exe --onefile --windowed --icon options.ico  --name "Options Fodler Pickler" "NRB Pickle Options Dev.spec" main.py
 
 ToDo's
 """
 
+
 class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
 
     def __init__(self):
-        super().__init__()
+        super(self.__class__, self).__init__()
         self.setupUi(self)
 
         # set python environment
         if getattr(sys, 'frozen', False):
-            bundle_dir = sys._MEIPASS # pylint: disable=no-member
+            bundle_dir = sys._MEIPASS
         else:
             # we are running in a normal Python environment
             bundle_dir = os.path.dirname(os.path.abspath(__file__))
@@ -51,9 +51,9 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         self.setWindowIcon(QtGui.QIcon(os.path.join(bundle_dir, "pickle.ico")))
 
         # work in INI File Stuff here
-        QCoreApplication.setOrganizationName("NRB")
-        QCoreApplication.setOrganizationDomain("northriverboats.com")
-        QCoreApplication.setApplicationName("Options Boat Pickler")
+        QtCore.QCoreApplication.setOrganizationName("NRB")
+        QtCore.QCoreApplication.setOrganizationDomain("northriverboats.com")
+        QtCore.QCoreApplication.setApplicationName("Options Fodler Pickler")
         self.settings = QSettings()
         
 
@@ -75,9 +75,9 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         self.btnRun.clicked.connect(self.startBackgroundTask)
 
     def doAbout(self, event):
-        about_msg = "NRB Boat Folder Pickler\n©2019 North River Boats\nBy Fred Warren"
-        QtGui.QMessageBox.information(self, 'About',
-                about_msg, QtGui.QMessageBox.Ok)
+        about_msg = "NRB Options Folder Pickler\n©2019 North River Boats\nBy Fred Warren"
+        reply = QtGui.QMessageBox.information(self, 'About',
+                         about_msg, QtGui.QMessageBox.Ok)
 
     def closeEvent(self, e):
         self._closeEvent(0)
@@ -147,219 +147,7 @@ class MainAppWindow(QtGui.QMainWindow, MainWindow.Ui_MainWindow):
         self.lblFile.setText(label)
 
 
-class pickler():
-    def __init__(self, dir):
-        self.dir = dir
-        self.wb = None
-        self.ws = None
-        self.starts = []
-        self.ends = []
-        self.boatSizes = []
-        self.data = {}
-        self.part = {}
-        self.parts = {}
-        self.not_found = []
-        self.dupes = []
-
-    def build_files_list(self):
-        files = []
-        for path in Path(self.dir).glob("[!~$]*.xlsx"):
-            files.append(path)
-        return files
-
-    def open_sheet(self, file):
-        self.wb = openpyxl.load_workbook(file, data_only = True)
-        self.ws = self.wb.active
-
-    def output_not_found(self):
-        output = ""
-        for error in sorted(self.not_found, key=lambda x: [x[0], x[1], x[2]]):
-            output += " {:30.30}    {:12.12}    {:30.30}\n".format(error[0], error[1], error[2])
-        return output
-
-    def output_dupes(self):
-        output = ""
-        for error in sorted(self.dupes, key=lambda x: [x[0], x[1], x[2]]):
-            output += " {:30.30}    {:12.12}    {:30.30}\n".format(str(error[0]), str(error[1]), str(error[2]))
-        return output
-
-
-    #### IDENTIFY PORTIONS OF SHEET TO PROCESS #############
-    def find_starts(self):
-        # find where sections start
-        self.starts = []
-        for row in self.ws.iter_cols(min_col=start, max_col=start):
-            for cell in row:
-                if cell.value == "QTY":
-                    self.starts.append(cell.row)
-
-    def find_ends(self):
-        # find where sections end
-        self.ends = []
-        for row in self.ws.iter_cols(min_col=end, max_col=end):
-            for cell in row:
-                if cell.value == "CREDIT - TOTAL":
-                    self.ends.append(cell.row)
-    
-    def find_boat_sizes(self):
-        self.boatSizes = []
-        for col in self.ws.iter_rows(min_row=1, max_row=1):
-            for cell in col:
-                if  cell.column > 3 and cell.data_type == 'n' and cell.value != None:
-                    self.boatSizes.append(cell.value)
-	
-    def find_picklest(self):
-        global partSection
-        picklist = self.boatSizes[-1] + width
-        partSection[-1][1] = picklist
-    
-    #### PROCESS NON-SECTION PORTIONS OF THE SHEET #############    
-    def process_top_section(self):
-        # Process top static section of sheet
-        for name, column, row, default in topSection:
-            value = self.ws.cell(column = column, row = row).value
-            if value is None:
-                value = default
-            self.data[name] = value
-
-    def process_cost_summary_by_boat_size(self):
-        #Process cost summary
-        for i, boatSize in enumerate(self.boatSizes):
-            for name, column, row, default in costSummary:
-                value = self.ws.cell(column = column + (i * width), row = row).value
-                if value is None:
-                    value = default
-                self.data[str(boatSize) + name] = value
-
-    #### PROCESS SECTION PORTIONS OF THE SHEET SUPPORTING FUNCTIONS #############
-    def process_inner_section_top(self, index, offset, section):
-        for name, column, row, default in startSections:
-            value = self.ws.cell(column = column, row = row + offset).value
-            if value is None:
-                value = default
-            self.data[section + name] = value
-
-    def process_inner_section_top_by_boat_size(self, index, offset, boatSize, section):
-        for name, column, row, default in startSectionsSize:
-            value = self.ws.cell(column = column + (index * width), row = row + offset).value
-            if value is None:
-                value = default
-            self.data[section + " " + str(boatSize) + name] = value
-
-    def process_inner_section_bottom_by_boat_size(self, index, offset, boatSize, section):
-        for name, column, row, default in endSections:
-            value = self.ws.cell(column = column + (index * width), row = row + offset).value
-            if value is None:
-                value = default
-            self.data[section + " " + str(boatSize) + name] = value
-
-
-    def process_part_by_boat_size(self, index, offset, boatSize, section):
-        for name, column, row, default in partSectionByModel:
-            value = self.ws.cell(column = column + (index * width), row = row + offset).value
-            if value is None:
-                value = default
-            self.part[str(boatSize) + name] = value
-
-    def process_part_by_non_boat_size(self, offset, section):
-        for name, column, row, default in partSection:
-            value = self.ws.cell(column = column, row = row + offset).value
-            if value is None:
-                value = default
-            self.part[name] = value
-
-
-    def process_section_by_boat_sizes(self, offset, section, process_by_size_function):
-        for index, boatSize in enumerate(self.boatSizes):
-            process_by_size_function(index, offset, boatSize, section)
-
-    def process_part(self, index, section, offset):
-        self.part = {}
-        part = self.ws.cell(column = 1, row = 1 + offset).value
-        description = self.ws.cell(column = 2, row = 1 + offset).value
-        if description == "NOT FOUND":
-            error = [
-                self.data['FILE'],
-                section,
-                part,
-            ]
-            self.not_found.append(error)
-        elif part is not None:
-            self.parts[part] = self.parts.get(part, 0) + 1
-            self.process_part_by_non_boat_size(offset, section)
-            self.process_section_by_boat_sizes(offset, section, self.process_part_by_boat_size)
-            self.data[section + " PARTS"].append(self.part)
-
-    def process_parts(self, index, section):
-        self.parts = {}
-        for offset in range(self.starts[index], self.ends[index]-1):
-            self.process_part(index, section, offset)
-        for part in {part for part in self.parts if self.parts[part] > 1}:
-            error = [
-                self.data['FILE'],
-                section,
-                part,
-            ]
-            self.dupes.append(error)
-            
-
-
-    #### PROCESS SECTION PORTIONS OF THE SHEET #############
-    def process_section_top(self):
-        # Process top non-parts portion of sections not by boat size
-        for index, section in enumerate(sections):
-            offset = self.starts[index]
-            self.process_inner_section_top(index, offset, section)
-
-    def process_section_top_by_boat_size(self):
-		# Process top non-parts portion of sections by boat size
-        for i, section in enumerate(sections):
-            offset = self.starts[i]
-            self.process_section_by_boat_sizes(offset, section, self.process_inner_section_top_by_boat_size)
-    
-    def process_section_parts(self):
-        # Process parts portion of sections both by non boat size and by boat size must be combined
-        for index, section in enumerate(sections):
-            self.data[section + " PARTS"] = []
-            self.process_parts(index, section)
-    
-    def process_section_bottom(self):
-        # Process bottom non-parts portion of sections
-        for i, section in enumerate(sections):
-            offset = self.ends[i]
-            self.process_section_by_boat_sizes(offset, section, self.process_inner_section_bottom_by_boat_size)
-
-
-    #### PROCESS FULL SHEET ##########################
-    def process_sheet(self, file):
-        self.open_sheet(file)
-
-        # find different sections on the sheet
-        self.find_starts()
-        self.find_ends()
-        self.find_boat_sizes()
-        self.find_picklest()
-
-        self.data = {}
-
-        # keys not derived from fields.py
-        self.data["FILE"] = file.name
-        self.data["FULLPATH"] = file.resolve()
-        self.data['BOAT SIZES'] = self.boatSizes
-
-        # process top non-section band
-        self.process_top_section() # only non-boat-size
-        self.process_cost_summary_by_boat_size() # only by-boat-size
         
-        # process section bands
-        self.process_section_top() # only non-boat-size
-        self.process_section_top_by_boat_size() # only by-boat-size
-        self.process_section_parts() # both non-boat-size and by-boat-size
-        self.process_section_bottom() # only non-boat-size
-
-        return [str(self.data["OPTION NUMBER"]), self.data, self.output_not_found(), self.output_dupes()]
-
-
 class background_thread(QThread):
     def __init__(self, dir):
         QThread.__init__(self)
@@ -368,34 +156,101 @@ class background_thread(QThread):
     def __del__(self):
         self.wait()
 
-    def handle_errors(self, not_founds, dupes):
-        if len(not_founds) + len(dupes):
-            with tempfile.TemporaryFile(suffix='.txt', mode='w', delete=False) as file:
-                if len(not_founds):
-                    file.write("--- PARTS NOT FOUND --------------------------------------------------------------\n\n")
-                    file.write(not_founds)
-                    file.write("\n\n")
-                if len(dupes):
-                    file.write("--- DUPLICATE PARTS --------------------------------------------------------------\n\n")
-                    file.write(dupes)
-                    file.write("\n")
-                os.startfile(file.name)
+    def build_files_list(self, dir):
+        self.emit(SIGNAL('update_statusbar(qString)'), "Finding files...")
+        files = []
+        for path in Path(dir).glob("[!~$]*.xlsx"):
+            if not self.running:
+                break
+            files.append(path)
+        self.emit(SIGNAL('update_statusbar(qString)'), "Found {} files to process".format(len(files)))
+        return files
+
+    def process_sheet(self, file):
+        wb = openpyxl.load_workbook(file, data_only = True)
+        ws = wb.active
+        option = file.name[:-5]
+        data = {}
+        data["FILE"] = file.name
+        data["FULLPATH"] = file.resolve()
+        sections = ["TRAILER", "FABRICATION", "CANVAS", "PAINT", "OUTFITTING"]
+        
+        # find where sections start
+        starts = []
+        for row in ws.iter_cols(min_col=1, max_col=1):
+            for cell in row:
+                if cell.value == "QTY":
+                    starts.append(cell.row)
+
+        # find where sections end
+        ends = []
+        for row in ws.iter_cols(min_col=5, max_col=5):
+            for cell in row:
+                if cell.value == "CREDIT - TOTAL":
+                    ends.append(cell.row)
+        
+        for name, column, row, default in topSection:
+            value = ws.cell(column = column, row = row).value
+            if value is None:
+                value = default
+            data[name] = value
+
+        # Process top non-parts portion of sections
+        for i, section in enumerate(sections):
+            offset = starts[i]
+            for name, column, row, default in startSections:
+                value = ws.cell(column = column, row = row + offset).value
+                if value is None:
+                    value = default
+                data[section + name] = value
+
+        # Process bottom non-parts portion of sections
+        for i, section in enumerate(sections):
+            offset = ends[i]
+            for name, column, row, default in endSections:
+                value = ws.cell(column = column, row = row + offset).value
+                if value is None:
+                    value = default
+                data[section + name] = value
+       
+        # Process parts portion of sections
+        for i, section in enumerate(sections):
+            data[section + " PARTS"] = []
+            for offset in range(starts[i], ends[i]-1):
+                if ws.cell(column = 2, row = 1 + offset).value is not None:
+                    #print(option, ws.cell(column = 1, row = 1 + offset).value, ws.cell(column = 2, row = 1 + offset).value, ws.cell(column = 3, row = 1 + offset).value)
+                    part = {}
+                    for name, column, row, default in partSection:
+                        value = ws.cell(column = column, row = row + offset).value
+                        if value is None:
+                            value = default
+                        part[name] = value
+                    data[section + " PARTS"].append(part)
+        
+        # Process bottom section
+        offset = ends[i] + 10
+        for name, column, row, default in bottomSection:
+            value = ws.cell(column = column, row = row + offset).value
+            if value is None:
+                value = default
+            data[name] = value
+
+        # Handle Outfitting Notes
+     #   if offset + 25 > ws.max_row:
+      #      value = ""
+      #  else:
+      #      value = ws.cell(column = 1, row = offset + 25).value
+      #  data["OUTFITTING NOTES"] = value
+        
+        return [str(data["OPTION NUMBER"]), data]
 
     def run(self):
         self.running = True
         self.emit(SIGNAL('update_progressbar(int)'), 0)
-
-        pickle_folder = pickler(self.dir)
-        self.emit(SIGNAL('update_statusbar(qString)'), "Finding files...")
-
-        files = pickle_folder.build_files_list()
-        self.emit(SIGNAL('update_statusbar(qString)'), "Found {} files to process".format(len(files)))
-
+        files = self.build_files_list(self.dir)
         options = {}
         total_files = len(files)
         current_count = 0
-        not_founds = []
-        dupes = []
 
         if not self.running:
             self.emit(SIGNAL('endBackgroundTask()'))
@@ -405,7 +260,7 @@ class background_thread(QThread):
             if not self.running:
                 break
 
-            option, data, not_founds, dupes = pickle_folder.process_sheet(file)
+            option, data = self.process_sheet(file)
             options[option] = data
 
             current_count += 1
@@ -416,52 +271,16 @@ class background_thread(QThread):
         # if we get to this point, pickle the results....
         file_name = os.path.join(self.dir, os.path.split(self.dir)[1].lower() + ".pickle")
         pickle.dump(options, open(file_name, 'wb'))
-        # handle all_not_found and all_dups
-        self.handle_errors(not_founds, dupes)
         self.emit(SIGNAL('endBackgroundTask()'))
 
-def gui():
+
+def main():
     app = QtGui.QApplication(sys.argv)  # A new instance of QApplication
     form = MainAppWindow()              # We set the form to be our Main App Wehdiw (design)
     form.show()                         # Show the form
     app.exec_()                         # and execute the app
 
 
-def cli(folder):
-    pickle_folder = pickler(folder)
-    click.echo("Finding files...")
-    files = pickle_folder.build_files_list()
-    click.echo("Found {} files to process".format(len(files)))
-
-    options = {}
-    not_founds = []
-    dupes = []
-
-    with click.progressbar(files) as bar:
-        for file in bar:
-            option, data, not_founds, dupes = pickle_folder.process_sheet(file)
-            options[option] = data
-
-    file_name = os.path.join(folder, os.path.split(folder)[1].lower() + ".pickle")
-    pickle.dump(options, open(file_name, 'wb'))
-    click.echo("Saving pickle: {}".format(file_name))
-    if len(not_founds):
-        click.echo("--- PARTS NOT FOUND --------------------------------------------------------------\n")
-        click.echo(not_founds)
-        click.echo("")
-    if len(dupes):
-        click.echo("--- DUPLICATE PARTS --------------------------------------------------------------\n")
-        click.echo(dupes)
-        click.echo("")
-
-
-@click.command()
-@click.option('--folder', '-f', type=click.Path(exists=True, file_okay=False), help="folder to process")
-def main(folder):
-    if folder == None:
-        gui()
-    else:
-        cli(folder)
-
 if __name__ == '__main__':              # if we're running file directly and not importing it
-    main()                              # pylint: disable=no-value-for-parameter
+    main()                              # run the main function
+                       # run the main function
